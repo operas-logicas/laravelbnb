@@ -1893,11 +1893,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -1905,77 +1900,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      bookable1: null,
-      bookable2: null // bookable1: {
-      //     title: 'Cheap Villa',
-      //     content: 'A very cheap villa',
-      //     price: 1000
-      // },
-      // bookable2: {
-      //     title: 'Cheap Villa 2',
-      //     content: 'A very cheap villa 2',
-      //     price: 1500
-      // }
-
+      bookables: null,
+      loading: false
     };
   },
   // Lifecycle Hooks
-  // beforeCreate() {
-  //     console.log('before create');
-  // },
   // Fetch data from back-end API here
   created: function created() {
     var _this = this;
 
-    console.log('created');
-    console.log(this.bookable1);
-    console.log(this.bookable2);
+    this.loading = true;
     setTimeout(function () {
-      _this.bookable1 = {
+      _this.bookables = [{
         title: 'Cheap Villa !!!',
         content: 'A very cheap villa',
         price: 1000
-      };
-      _this.bookable2 = {
+      }, {
         title: 'Cheap Villa 2',
         content: 'A very cheap villa 2',
         price: 1500
-      };
-      _this.bookable3 = {
-        title: 'Expensive Villa',
-        content: 'A very expensive villa',
-        price: 10000
-      };
-    }, 5000);
-    setTimeout(function () {
-      console.log('First change');
-      _this.bookable1.title = 'You will see this!';
-    }, 8000);
-    setTimeout(function () {
-      console.log('Second change');
-      _this.bookable3.title = "You won't see this!";
-    }, 12000);
-  },
-  // beforeMount() {
-  //     console.log('before mount');
-  // },
-  mounted: function mounted() {
-    console.log('mounted');
-  } // beforeUpdate() {
-  //     console.log('before update');
-  // },
-  //
-  // updated() {
-  //     console.log('updated');
-  // },
-  // beforeDestroy() {
-  //     console.log('before destroy');
-  // },
-  //
-  // destroyed() {
-  //     console.log('destroyed');
-  // }
-
+      }];
+      _this.loading = false;
+    }, 2000);
+  }
 });
 
 /***/ }),
@@ -37828,35 +37775,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("bookable-list-item", {
-        attrs: {
-          "item-title": _vm.bookable1.title,
-          "item-content": _vm.bookable1.content,
-          price: _vm.bookable1.price
-        }
-      }),
-      _vm._v(" "),
-      _c("bookable-list-item", {
-        attrs: {
-          "item-title": _vm.bookable2.title,
-          "item-content": _vm.bookable2.content,
-          price: _vm.bookable2.price
-        }
-      }),
-      _vm._v(" "),
-      _c("bookable-list-item", {
-        attrs: {
-          "item-title": _vm.bookable3.title,
-          "item-content": _vm.bookable3.content,
-          price: _vm.bookable3.price
-        }
-      })
-    ],
-    1
-  )
+  return _c("div", [
+    _vm.loading
+      ? _c("div", [_vm._v("Data is loading...")])
+      : _c(
+          "div",
+          _vm._l(_vm.bookables, function(bookable, index) {
+            return _c("bookable-list-item", {
+              key: index,
+              attrs: {
+                "item-title": bookable.title,
+                "item-content": bookable.content,
+                price: bookable.price
+              }
+            })
+          }),
+          1
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
