@@ -3,14 +3,13 @@
         <div v-if="loading">Data is loading...</div>
         <div v-else>
             <div class="row mb-4" v-for="row in rows" :key="`row-${row}`">
-                <div class="col"
+                <div class="col d-flex align-items-stretch"
                      v-for="(bookable, col) in bookablesInRow(row)"
                      :key="`row-${row + col}`"
                 >
                     <bookable-list-item
                         :item-title="bookable.title"
-                        :item-content="bookable.content"
-                        :price="bookable.price"
+                        :item-description="bookable.description"
                     >
                     </bookable-list-item>
                 </div>
@@ -66,46 +65,13 @@ export default {
     created() {
         this.loading = true;
 
-        setTimeout(() => {
-            this.bookables = [
-                {
-                    title: 'Cheap Villa !!!',
-                    content: 'A very cheap villa',
-                    price: 1000
-                },
-                {
-                    title: 'Cheap Villa 2',
-                    content: 'A very cheap villa 2',
-                    price: 1500
-                },
-                {
-                    title: 'Cheap Villa 2',
-                    content: 'A very cheap villa 2',
-                    price: 1500
-                },
-                {
-                    title: 'Cheap Villa 2',
-                    content: 'A very cheap villa 2',
-                    price: 1500
-                },
-                {
-                    title: 'Cheap Villa 2',
-                    content: 'A very cheap villa 2',
-                    price: 1500
-                },
-                {
-                    title: 'Cheap Villa 2',
-                    content: 'A very cheap villa 2',
-                    price: 1500
-                },
-                {
-                    title: 'Cheap Villa 2',
-                    content: 'A very cheap villa 2',
-                    price: 1500
-                }
-            ];
-            this.loading = false;
-        }, 2000);
+        const request = axios.get('/api/bookables')
+            .then(response => {
+                this.bookables = response.data;
+                this.bookables.push({ title: 'x', description: 'x'});
+                this.loading = false;
+            })
+            .catch(error => `Error! ${error.status} ${error.statusText}`);
     }
 };
 </script>
