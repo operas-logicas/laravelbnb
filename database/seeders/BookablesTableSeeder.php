@@ -2,19 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bookable;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class BookablesTableSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call([
-            BookablesTableSeeder::class
-        ]);
+        Bookable::factory()->times(100)->create();
     }
 }

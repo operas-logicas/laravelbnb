@@ -3,9 +3,9 @@
         <div v-if="loading">Data is loading...</div>
         <div v-else>
             <div class="row mb-4" v-for="row in rows" :key="`row-${row}`">
-                <div
-                    class="col"
-                    v-for="(bookable, col) in bookablesInRow(row)" :key="`row-${row + col}`"
+                <div class="col"
+                     v-for="(bookable, col) in bookablesInRow(row)"
+                     :key="`row-${row + col}`"
                 >
                     <bookable-list-item
                         :item-title="bookable.title"
@@ -15,7 +15,8 @@
                     </bookable-list-item>
                 </div>
                 <div class="col"
-                     v-for="p in placeholdersInRow(row)" :key="`placholder-${row + p}`"
+                     v-for="p in placeholdersInRow(row)"
+                     :key="`placholder-${row + p}`"
                 >
                 </div>
             </div>
