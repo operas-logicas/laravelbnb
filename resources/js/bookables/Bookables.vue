@@ -2,13 +2,23 @@
     <div>
         <div v-if="loading">Data is loading...</div>
         <div v-else>
-            <bookable-list-item
-                v-for="(bookable, index) in bookables" :key="index"
-
-                :item-title="bookable.title"
-                :item-content="bookable.content"
-                :price="bookable.price"
-            ></bookable-list-item>
+            <div class="row mb-4" v-for="row in rows" :key="`row-${row}`">
+                <div
+                    class="col"
+                    v-for="(bookable, col) in bookablesInRow(row)" :key="`row-${row + col}`"
+                >
+                    <bookable-list-item
+                        :item-title="bookable.title"
+                        :item-content="bookable.content"
+                        :price="bookable.price"
+                    >
+                    </bookable-list-item>
+                </div>
+                <div class="col"
+                     v-for="p in placeholdersInRow(row)" :key="`placholder-${row + p}`"
+                >
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -24,8 +34,29 @@ export default {
     data() {
         return {
             bookables: null,
-            loading: false
+            loading: false,
+            columns: 3
         };
+    },
+
+    computed: {
+        rows() {
+            return this.bookables
+                ? Math.ceil(this.bookables.length / this.columns)
+                : 0;
+        }
+    },
+
+    methods: {
+        bookablesInRow(row) {
+            return this.bookables.slice(
+                (row - 1) * this.columns, row * this.columns
+            );
+        },
+
+        placeholdersInRow(row) {
+            return this.columns - this.bookablesInRow(row).length;
+        }
     },
 
     // Lifecycle Hooks
@@ -40,6 +71,31 @@ export default {
                     title: 'Cheap Villa !!!',
                     content: 'A very cheap villa',
                     price: 1000
+                },
+                {
+                    title: 'Cheap Villa 2',
+                    content: 'A very cheap villa 2',
+                    price: 1500
+                },
+                {
+                    title: 'Cheap Villa 2',
+                    content: 'A very cheap villa 2',
+                    price: 1500
+                },
+                {
+                    title: 'Cheap Villa 2',
+                    content: 'A very cheap villa 2',
+                    price: 1500
+                },
+                {
+                    title: 'Cheap Villa 2',
+                    content: 'A very cheap villa 2',
+                    price: 1500
+                },
+                {
+                    title: 'Cheap Villa 2',
+                    content: 'A very cheap villa 2',
+                    price: 1500
                 },
                 {
                     title: 'Cheap Villa 2',

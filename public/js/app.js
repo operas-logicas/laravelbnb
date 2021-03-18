@@ -1852,15 +1852,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     itemTitle: String,
     itemContent: String,
     price: Number
-  },
-  mounted: function mounted() {
-    console.log(this.itemTitle); // Uncomment to see why modifying props is bad!
-    // setTimeout(() => this.itemTitle = 'New Title', 1500);
   }
 });
 
@@ -1893,6 +1891,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -1901,8 +1909,22 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       bookables: null,
-      loading: false
+      loading: false,
+      columns: 3
     };
+  },
+  computed: {
+    rows: function rows() {
+      return this.bookables ? Math.ceil(this.bookables.length / this.columns) : 0;
+    }
+  },
+  methods: {
+    bookablesInRow: function bookablesInRow(row) {
+      return this.bookables.slice((row - 1) * this.columns, row * this.columns);
+    },
+    placeholdersInRow: function placeholdersInRow(row) {
+      return this.columns - this.bookablesInRow(row).length;
+    }
   },
   // Lifecycle Hooks
   // Fetch data from back-end API here
@@ -1915,6 +1937,26 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Cheap Villa !!!',
         content: 'A very cheap villa',
         price: 1000
+      }, {
+        title: 'Cheap Villa 2',
+        content: 'A very cheap villa 2',
+        price: 1500
+      }, {
+        title: 'Cheap Villa 2',
+        content: 'A very cheap villa 2',
+        price: 1500
+      }, {
+        title: 'Cheap Villa 2',
+        content: 'A very cheap villa 2',
+        price: 1500
+      }, {
+        title: 'Cheap Villa 2',
+        content: 'A very cheap villa 2',
+        price: 1500
+      }, {
+        title: 'Cheap Villa 2',
+        content: 'A very cheap villa 2',
+        price: 1500
       }, {
         title: 'Cheap Villa 2',
         content: 'A very cheap villa 2',
@@ -37746,10 +37788,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h1", [_vm._v(_vm._s(_vm.itemTitle))]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.itemContent))])
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _c("h5", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.itemTitle))]),
+      _vm._v(" "),
+      _c("p", { staticClass: "card-text" }, [_vm._v(_vm._s(_vm.itemContent))])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -37780,17 +37824,39 @@ var render = function() {
       ? _c("div", [_vm._v("Data is loading...")])
       : _c(
           "div",
-          _vm._l(_vm.bookables, function(bookable, index) {
-            return _c("bookable-list-item", {
-              key: index,
-              attrs: {
-                "item-title": bookable.title,
-                "item-content": bookable.content,
-                price: bookable.price
-              }
-            })
+          _vm._l(_vm.rows, function(row) {
+            return _c(
+              "div",
+              { key: "row-" + row, staticClass: "row mb-4" },
+              [
+                _vm._l(_vm.bookablesInRow(row), function(bookable, col) {
+                  return _c(
+                    "div",
+                    { key: "row-" + (row + col), staticClass: "col" },
+                    [
+                      _c("bookable-list-item", {
+                        attrs: {
+                          "item-title": bookable.title,
+                          "item-content": bookable.content,
+                          price: bookable.price
+                        }
+                      })
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.placeholdersInRow(row), function(p) {
+                  return _c("div", {
+                    key: "placholder-" + (row + p),
+                    staticClass: "col"
+                  })
+                })
+              ],
+              2
+            )
           }),
-          1
+          0
         )
   ])
 }
