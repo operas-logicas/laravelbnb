@@ -3,7 +3,7 @@ require('./bootstrap');
 // import Vue from 'vue';
 import VueRouter from 'vue-router';
 import router from './routes';
-import Index from './components/Index';
+import Index from './Index';
 
 // window.Vue = Vue;
 window.Vue = require('vue').default;

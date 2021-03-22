@@ -7,15 +7,11 @@
                      v-for="(bookable, col) in bookablesInRow(row)"
                      :key="`row-${row + col}`"
                 >
-                    <bookable-list-item
-                        :item-title="bookable.title"
-                        :item-description="bookable.description"
-                    >
-                    </bookable-list-item>
+                    <bookable-list-item :bookable="bookable"></bookable-list-item>
                 </div>
                 <div class="col"
                      v-for="p in placeholdersInRow(row)"
-                     :key="`placholder-${row + p}`"
+                     :key="`placeholder-${row + p}`"
                 >
                 </div>
             </div>
@@ -65,13 +61,14 @@ export default {
     created() {
         this.loading = true;
 
-        const request = axios.get('/api/bookables')
+        axios.get('/api/bookables')
             .then(response => {
                 this.bookables = response.data;
-                this.bookables.push({ title: 'x', description: 'x'});
                 this.loading = false;
             })
-            .catch(error => `Error! ${error.status} ${error.statusText}`);
+            .catch(error =>
+                console.log(`Error! ${error.status} ${error.statusText}`)
+            );
     }
 };
 </script>
