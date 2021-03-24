@@ -2,7 +2,7 @@
     <div v-if="loading">Data is loading...</div>
     <div v-else>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 pb-4">
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title">{{ bookable.title }}</h2>
@@ -11,16 +11,21 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <!-- TODO -->
-                Availability & Price
+            <div class="col-md-4 pb-4">
+                <availability></availability>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Availability from './Availability';
+
 export default {
+    components: {
+        Availability
+    },
+
     data() {
         return {
             bookable: null,
