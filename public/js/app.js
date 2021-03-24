@@ -1878,7 +1878,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.loading = true;
     axios.get("/api/bookables/".concat(this.$route.params.id)).then(function (response) {
-      _this.bookable = response.data;
+      _this.bookable = response.data.data;
       _this.loading = false;
     })["catch"](function (error) {
       return console.log("Error! ".concat(error.status, " ").concat(error.statusText));
@@ -1987,7 +1987,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.loading = true;
     axios.get('/api/bookables').then(function (response) {
-      _this.bookables = response.data;
+      _this.bookables = response.data.data;
       _this.loading = false;
     })["catch"](function (error) {
       return console.log("Error! ".concat(error.status, " ").concat(error.statusText));
