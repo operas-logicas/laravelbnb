@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding: 1.25rem">
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
             <span
