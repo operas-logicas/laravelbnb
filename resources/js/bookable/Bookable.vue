@@ -11,11 +11,11 @@
                     </div>
                 </div>
 
-                <review-list></review-list>
+                <review-list :bookable-id="this.$route.params.id"></review-list>
             </div>
 
             <div class="col-md-4 pb-4">
-                <availability></availability>
+                <availability :bookable-id="this.$route.params.id"></availability>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@ export default {
                 this.loading = false;
             })
             .catch(error =>
-                console.log(`Error! ${error.status} ${error.statusText}`)
+                console.log(`Error! ${error.response.status} ${error.response.statusText}`)
             );
     }
 };

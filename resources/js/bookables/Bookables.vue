@@ -67,7 +67,7 @@ export default {
                 this.loading = false;
             })
             .catch(error =>
-                console.log(`Error! ${error.status} ${error.statusText}`)
+                console.log(`Error! ${error.response.status} ${error.response.statusText}`)
             );
     }
 };

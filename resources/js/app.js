@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 // import Vue from 'vue';
+import moment from 'moment';
 import VueRouter from 'vue-router';
 import router from './routes';
 import Index from './Index';
@@ -14,6 +15,12 @@ window.Vue = require('vue').default;
 //     require('./components/ExampleComponent.vue').default
 // );
 
+// Register filter globally
+Vue.filter(
+    'fromNow', value => moment(value).fromNow()
+);
+
+// Register plugin globally
 Vue.use(VueRouter);
 
 const app = new Vue({
