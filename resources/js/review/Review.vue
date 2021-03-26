@@ -4,8 +4,7 @@
             <label class="text-muted">Select the star rating (1 is worst - 5 is best)</label>
             <star-rating
                 class="fa-3x"
-                :rating="review.rating"
-                @rating-changed="review.rating = $event"
+                v-model="review.rating"
             ></star-rating>
         </div>
 
