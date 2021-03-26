@@ -33,3 +33,8 @@ Route::get(
     'bookables/{bookable}/reviews',
     'Api\BookableReviewController'
 )->name('bookables.reviews.index');
+
+Route::apiResource(
+    'review',
+    'Api\ReviewController'
+)->only('show');
