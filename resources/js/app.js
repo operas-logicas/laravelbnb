@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 // import Vue from 'vue';
+import StarRating from './shared/components/StarRating';
 import moment from 'moment';
 import VueRouter from 'vue-router';
 import router from './routes';
@@ -10,10 +11,9 @@ import Index from './Index';
 window.Vue = require('vue').default;
 
 // Register component globally
-// Vue.component(
-//     'example-component',
-//     require('./components/ExampleComponent.vue').default
-// );
+Vue.component(
+    'star-rating', StarRating
+);
 
 // Register filter globally
 Vue.filter(

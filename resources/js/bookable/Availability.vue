@@ -2,9 +2,8 @@
     <div style="padding: 1.25rem">
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span
-                v-if="noAvailability"
-                class="text-danger text-uppercase"
+            <span v-if="noAvailability"
+                  class="text-danger text-uppercase"
             >(Not Available)</span>
             <span v-if="hasAvailability"
                   class="text-success text-uppercase"

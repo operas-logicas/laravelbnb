@@ -10,7 +10,9 @@
             >
                 <div class="row">
                     <div class="col-md-6">Robert Miller</div>
-                    <div class="col-md-6 d-flex justify-content-end">{{ review.rating }}</div>
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <star-rating :rating="review.rating" class="fa-lg"></star-rating>
+                    </div>
                 </div>
 
                 <div class="row">
