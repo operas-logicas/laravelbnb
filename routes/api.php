@@ -42,4 +42,4 @@ Route::get(
 Route::apiResource(
     'review',
     'Api\ReviewController'
-)->only('show');
+)->only('show', 'store');
