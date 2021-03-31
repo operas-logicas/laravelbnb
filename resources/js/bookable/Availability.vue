@@ -20,15 +20,11 @@
                     placeholder="Start date"
                     v-model="from"
                     @keyup.enter="check"
-                    :class="[{ 'is-invalid': this.errorFor('from') }]"
+                    :class="[
+                        { 'is-invalid': errorFor('from') }
+                    ]"
                 />
-                <div
-                    class="invalid-feedback"
-                    v-for="(error, index) in this.errorFor('from')"
-                    :key="`from-${index}`"
-                >
-                    {{ error }}
-                </div>
+                <v-errors :errors="errorFor('from')"></v-errors>
             </div>
 
             <div class="form-group col-md-6">
@@ -40,15 +36,11 @@
                     placeholder="End date"
                     v-model="to"
                     @keyup.enter="check"
-                    :class="[{ 'is-invalid': this.errorFor('to') }]"
+                    :class="[
+                        { 'is-invalid': errorFor('to') }
+                    ]"
                 />
-                <div
-                    class="invalid-feedback"
-                    v-for="(error, index) in this.errorFor('to')"
-                    :key="`to-${index}`"
-                >
-                    {{ error }}
-                </div>
+                <v-errors :errors="errorFor('to')"></v-errors>
             </div>
         </div>
 
@@ -60,7 +52,12 @@
 </template>
 
 <script>
+import { is422 } from '../shared/utils/response';
+import validationErrors from '../shared/mixins/validationErrors';
+
 export default {
+    mixins: [validationErrors],
+
     props: {
         bookableId: String
     },
@@ -70,8 +67,7 @@ export default {
             from: null,
             to: null,
             loading: false,
-            status: null,
-            errors: null
+            status: null
         };
     },
 
@@ -92,18 +88,11 @@ export default {
                 .then(response => this.status = response.status)
 
                 .catch(error => {
-                    if (422 === error.response.status)
-                        this.errors = error.response.data.errors;
+                    if (is422(error)) this.errors = error.response.data.errors;
                     this.status = error.response.status;
                 })
 
                 .finally(() => this.loading = false);
-        },
-
-        errorFor(field) {
-            return this.hasErrors && this.errors[field]
-                ? this.errors[field]
-                : null;
         }
     },
 
@@ -124,19 +113,15 @@ export default {
 </script>
 
 <style scoped>
-    label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        color: gray;
-        font-weight: bolder;
-    }
+label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: gray;
+    font-weight: bolder;
+}
 
-    .is-invalid {
-        border-color: #b22222;
-        background-image: none;
-    }
-
-    .invalid-feedback {
-        color: #b22222;
-    }
+.is-invalid {
+    border-color: #b22222;
+    background-image: none;
+}
 </style>

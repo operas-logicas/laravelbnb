@@ -40,6 +40,6 @@ Route::get(
 )->name('booking.booking-by-review.show');
 
 Route::apiResource(
-    'review',
+    'reviews',
     'Api\ReviewController'
 )->only('show', 'store');

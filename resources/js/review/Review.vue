@@ -54,12 +54,16 @@
                                     cols="30" rows="10"
                                     class="form-control"
                                     v-model="review.content"
+                                    :class="[
+                                        { 'is-invalid': errorFor('content') }
+                                    ]"
                                 ></textarea>
+                                <v-errors :errors="errorFor('content')"></v-errors>
                             </div>
 
                             <button class="btn btn-lg btn-primary btn-block"
                                     @click.prevent="submit"
-                                    :disabled="loading"
+                                    :disabled="sending"
                             >Submit</button>
                         </div>
                     </div>
@@ -70,9 +74,12 @@
 </template>
 
 <script>
-import { is404 } from '../shared/utils/response.js';
+import { is404, is422 } from '../shared/utils/response';
+import validationErrors from '../shared/mixins/validationErrors';
 
 export default {
+    mixins: [validationErrors],
+
     data() {
         return {
             review: {
@@ -83,6 +90,7 @@ export default {
             existingReview: null,
             booking: null,
             loading: false,
+            sending: false,
             error: false
         }
     },
@@ -93,18 +101,22 @@ export default {
 
         // 1. Check if review already exists (in reviews table by id - uuid)
         axios
-            .get(`/api/review/${this.review.id}`)
+            .get(`/api/reviews/${this.review.id}`)
+
             .then(response => {
                 this.existingReview = response.data.data;
             })
+
             .catch(error => {
                 if (is404(error)) {
                     // 2. Else fetch a booking by a review key (then remove review key from db)
                     return axios
                         .get(`/api/booking-by-review/${this.review.id}`)
+
                         .then(response => {
                             this.booking = response.data.data;
                         })
+
                         .catch((error) => {
                             this.error = !is404(error);
                         });
@@ -112,12 +124,10 @@ export default {
 
                 this.error = true;
             })
+
             .then(() =>
                 this.loading = false
             );
-
-        // 3. Store the review
-
     },
 
     computed: {
@@ -144,14 +154,34 @@ export default {
 
     methods: {
         submit() {
-            this.loading = true;
+            this.sending = true;
+            this.errors = null;
 
+            // 3. Store the review
             axios
-                .post(`/api/review`, this.review)
+                .post(`/api/reviews`, this.review)
                 .then(response => console.log(response))
-                .catch(() => this.error = true)
-                .then(() => this.loading = false);
+                .catch((error) => {
+                    if (is422(error)) {
+                        const errors = error.response.data.errors;
+
+                        if (errors['content'] && 1 === _.size(errors)) {
+                            this.errors = errors;
+                            return;
+                        }
+                    }
+
+                    this.error = true;
+                })
+                .then(() => this.sending = false);
         }
     }
 }
 </script>
+
+<style scoped>
+.is-invalid {
+    border-color: #b22222;
+    background-image: none;
+}
+</style>
