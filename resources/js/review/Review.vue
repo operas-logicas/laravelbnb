@@ -95,39 +95,34 @@ export default {
         }
     },
 
-    created() {
+    async created() {
         this.loading = true;
         this.review.id = this.$route.params.id;
 
-        // 1. Check if review already exists (in reviews table by id - uuid)
-        axios
-            .get(`/api/reviews/${this.review.id}`)
+        try {
+            // 1. Check if review already exists (in reviews table by id - uuid)
+            this.existingReview = (await axios.get(
+                `/api/reviews/${this.review.id}`)
+            ).data.data;
 
-            .then(response => {
-                this.existingReview = response.data.data;
-            })
-
-            .catch(error => {
-                if (is404(error)) {
+        } catch (error) {
+            if (is404(error)) {
+                try {
                     // 2. Else fetch a booking by a review key (then remove review key from db)
-                    return axios
-                        .get(`/api/booking-by-review/${this.review.id}`)
+                    this.booking = (await axios.get(
+                        `/api/booking-by-review/${this.review.id}`)
+                    ).data.data;
 
-                        .then(response => {
-                            this.booking = response.data.data;
-                        })
-
-                        .catch((error) => {
-                            this.error = !is404(error);
-                        });
+                } catch (error) {
+                    this.error = !is404(error);
                 }
-
+            } else {
                 this.error = true;
-            })
+            }
 
-            .then(() =>
-                this.loading = false
-            );
+        } finally {
+            this.loading = false;
+        }
     },
 
     computed: {
@@ -153,27 +148,30 @@ export default {
     },
 
     methods: {
-        submit() {
+        async submit() {
             this.sending = true;
             this.errors = null;
 
-            // 3. Store the review
-            axios
-                .post(`/api/reviews`, this.review)
-                .then(response => console.log(response))
-                .catch((error) => {
-                    if (is422(error)) {
-                        const errors = error.response.data.errors;
+            try {
+                // 3. Store the review
+                const response = await axios.post(`/api/reviews`, this.review);
+                console.log(response);
 
-                        if (errors['content'] && 1 === _.size(errors)) {
-                            this.errors = errors;
-                            return;
-                        }
+            } catch (error) {
+                if (is422(error)) {
+                    const errors = error.response.data.errors;
+
+                    if (errors['content'] && 1 === _.size(errors)) {
+                        this.errors = errors;
+                        return;
                     }
+                }
 
-                    this.error = true;
-                })
-                .then(() => this.sending = false);
+                this.error = true;
+
+            } finally {
+                this.sending = false;
+            }
         }
     }
 }
