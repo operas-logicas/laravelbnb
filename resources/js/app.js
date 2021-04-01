@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 import router from './routes';
 import Index from './Index';
 import FatalError from './shared/components/FatalError';
+import Success from './shared/components/Success';
 import StarRating from './shared/components/StarRating';
 import ValidationErrors from './shared/components/ValidationErrors';
 
@@ -14,6 +15,7 @@ window.Vue = require('vue').default;
 
 // Register components globally
 Vue.component('fatal-error', FatalError);
+Vue.component('success', Success);
 Vue.component('star-rating', StarRating);
 Vue.component('v-errors', ValidationErrors);
 
