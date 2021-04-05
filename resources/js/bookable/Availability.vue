@@ -1,5 +1,5 @@
 <template>
-    <div style="padding: 1.25rem">
+    <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
             <transition name="fade">
@@ -98,6 +98,7 @@ export default {
                 this.status = error.response.status;
 
             } finally {
+                this.$emit('availability', this.hasAvailability);
                 this.loading = false;
             }
         }
