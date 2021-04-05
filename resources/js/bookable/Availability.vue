@@ -2,12 +2,14 @@
     <div style="padding: 1.25rem">
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span v-if="noAvailability"
+            <transition name="fade">
+                <span v-if="noAvailability"
                   class="text-danger text-uppercase"
-            >(Not Available)</span>
-            <span v-if="hasAvailability"
+                >(Not Available)</span>
+                <span v-if="hasAvailability"
                   class="text-success text-uppercase"
-            >(Available)</span>
+                >(Available)</span>
+            </transition>
         </h6>
 
         <div class="form-row">
@@ -44,10 +46,10 @@
             </div>
         </div>
 
-        <button class="btn btn-secondary btn-block"
-                @click="check"
-                :disabled="loading"
-        >Check!</button>
+        <loading-button :loading="loading" :check="check">
+            <template slot="notLoading">Check!</template>
+            <template slot="loading">Checking...</template>
+        </loading-button>
     </div>
 </template>
 
@@ -64,8 +66,8 @@ export default {
 
     data() {
         return {
-            from: null,
-            to: null,
+            from: this.$store.state.lastSearch.from,
+            to: this.$store.state.lastSearch.to,
             loading: false,
             status: null
         };
@@ -75,6 +77,11 @@ export default {
         check() {
             this.loading = true;
             this.errors = null;
+
+            this.$store.dispatch('setLastSearch', {
+                from: this.from,
+                to: this.to
+            });
 
             axios
                 .get(`/api/bookables/${
