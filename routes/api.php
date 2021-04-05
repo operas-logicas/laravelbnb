@@ -24,15 +24,24 @@ Route::apiResource(
     'Api\BookableController'
 )->only('index', 'show');
 
-Route::get(
-    'bookables/{bookable}/availability',
-    'Api\BookableAvailabilityController'
-)->name('bookables.availability.show');
+Route::group([
+    'prefix' => 'bookables/{bookable}'
+], function () {
+    Route::get(
+        'availability',
+        'Api\BookableAvailabilityController'
+    )->name('bookables.availability.show');
 
-Route::get(
-    'bookables/{bookable}/reviews',
-    'Api\BookableReviewController'
-)->name('bookables.reviews.index');
+    Route::get(
+        'price',
+        'Api\BookablePriceController'
+    )->name('bookables.price.show');
+
+    Route::get(
+        'reviews',
+        'Api\BookableReviewController'
+    )->name('bookables.reviews.index');
+});
 
 Route::get(
     'booking-by-review/{reviewKey}',

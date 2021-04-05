@@ -12,7 +12,7 @@
 export default {
     props: {
         check: Function,
-        loading: String
+        loading: Boolean
     }
 }
 </script>

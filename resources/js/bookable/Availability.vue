@@ -74,7 +74,7 @@ export default {
     },
 
     methods: {
-        check() {
+        async check() {
             this.loading = true;
             this.errors = null;
 
@@ -83,23 +83,23 @@ export default {
                 to: this.to
             });
 
-            axios
-                .get(`/api/bookables/${
+            try {
+                this.status = (await axios
+                    .get(`/api/bookables/${
                         this.bookableId
                     }/availability?from=${
                         this.from
                     }&to=${
                         this.to
-                    }`)
+                    }`)).status;
 
-                .then(response => this.status = response.status)
+            } catch (error) {
+                if (is422(error)) this.errors = error.response.data.errors;
+                this.status = error.response.status;
 
-                .catch(error => {
-                    if (is422(error)) this.errors = error.response.data.errors;
-                    this.status = error.response.status;
-                })
-
-                .finally(() => this.loading = false);
+            } finally {
+                this.loading = false;
+            }
         }
     },
 
