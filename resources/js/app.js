@@ -40,7 +40,7 @@ const app = new Vue({
         'index': Index
     },
 
-    beforeCreate() {
-        this.$store.dispatch('loadStoredState');
+    async beforeCreate() {
+        await this.$store.dispatch('loadStoredState');
     }
 });

@@ -21,12 +21,26 @@
                 ></availability>
 
                 <transition name="fade">
-                    <price-breakdown v-if="price" :price="price" class="mb-4"></price-breakdown>
+                    <price-breakdown v-if="price" :price="price" class="mb-4">
+                    </price-breakdown>
                 </transition>
 
                 <transition name="fade">
-                    <button v-if="price" class="btn btn-outline-secondary btn-block">Book now</button>
+                    <button v-if="price"
+                            @click="addToCart"
+                            :disabled="inCartAlready"
+                            class="btn btn-outline-secondary btn-block"
+                    >Book now</button>
                 </transition>
+
+                <button v-if="inCartAlready"
+                        @click="removeFromCart"
+                        class="btn btn-outline-secondary btn-block"
+                >Remove from cart</button>
+
+                <div v-if="inCartAlready" class="mt-4 text-muted warning">
+                    Seems like you've added this to the cart already. If you want to change dates, remove from cart first.
+                </div>
             </div>
         </div>
     </div>
@@ -72,6 +86,21 @@ export default {
             } catch (error) {
                 this.price = null;
             }
+        },
+
+        addToCart() {
+            this.$store.commit(
+                'addToCart',
+                {
+                    bookable: this.bookable,
+                    price: this.price,
+                    dates: this.lastSearch
+                }
+            );
+        },
+
+        removeFromCart() {
+            this.$store.commit('removeFromCart', this.bookable.id);
         }
     },
 
@@ -89,8 +118,22 @@ export default {
         }
     },
 
-    computed: mapState({
-        lastSearch: 'lastSearch'
-    })
+    computed: {
+        ...mapState({
+            lastSearch: 'lastSearch'
+        }),
+
+        inCartAlready() {
+            if (!this.bookable) return false;
+
+            return this.$store.getters.inCartAlready(this.bookable.id);
+        }
+    }
 };
 </script>
+
+<style scoped>
+.warning {
+    font-size: 0.7rem;
+}
+</style>
