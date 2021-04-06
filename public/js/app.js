@@ -341,14 +341,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     addToCart: function addToCart() {
-      this.$store.commit('addToCart', {
+      this.$store.dispatch('addToCart', {
         bookable: this.bookable,
         price: this.price,
         dates: this.lastSearch
       });
     },
     removeFromCart: function removeFromCart() {
-      this.$store.commit('removeFromCart', this.bookable.id);
+      this.$store.dispatch('removeFromCart', this.bookable.id);
     }
   },
   created: function created() {
@@ -1235,6 +1235,9 @@ __webpack_require__.r(__webpack_exports__);
     setLastSearch: function setLastSearch(state, payload) {
       state.lastSearch = payload;
     },
+    setCart: function setCart(state, payload) {
+      state.cart = payload;
+    },
     addToCart: function addToCart(state, payload) {
       state.cart.items.push(payload);
     },
@@ -1251,10 +1254,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     loadStoredState: function loadStoredState(context) {
       var lastSearch = localStorage.getItem('lastSearch');
-
-      if (lastSearch) {
-        context.commit('setLastSearch', JSON.parse(lastSearch));
-      }
+      if (lastSearch) context.commit('setLastSearch', JSON.parse(lastSearch));
+      var cart = localStorage.getItem('cart');
+      if (cart) context.commit('setCart', JSON.parse(cart));
+    },
+    addToCart: function addToCart(_ref, payload) {
+      var commit = _ref.commit,
+          state = _ref.state;
+      commit('addToCart', payload);
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+    removeFromCart: function removeFromCart(_ref2, payload) {
+      var commit = _ref2.commit,
+          state = _ref2.state;
+      commit('removeFromCart', payload);
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     }
   },
   getters: {

@@ -14,6 +14,10 @@ export default {
             state.lastSearch = payload;
         },
 
+        setCart(state, payload) {
+            state.cart = payload;
+        },
+
         addToCart(state, payload) {
             state.cart.items.push(payload);
         },
@@ -33,9 +37,21 @@ export default {
 
         loadStoredState(context) {
             const lastSearch = localStorage.getItem('lastSearch');
-            if (lastSearch) {
+            if (lastSearch)
                 context.commit('setLastSearch', JSON.parse(lastSearch));
-            }
+
+            const cart = localStorage.getItem('cart');
+            if (cart) context.commit('setCart', JSON.parse(cart));
+        },
+
+        addToCart({ commit, state }, payload) {
+            commit('addToCart', payload);
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+        },
+
+        removeFromCart({ commit, state}, payload) {
+            commit('removeFromCart', payload);
+            localStorage.setItem('cart', JSON.stringify(state.cart));
         }
     },
 

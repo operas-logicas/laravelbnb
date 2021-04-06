@@ -89,7 +89,7 @@ export default {
         },
 
         addToCart() {
-            this.$store.commit(
+            this.$store.dispatch(
                 'addToCart',
                 {
                     bookable: this.bookable,
@@ -100,7 +100,7 @@ export default {
         },
 
         removeFromCart() {
-            this.$store.commit('removeFromCart', this.bookable.id);
+            this.$store.dispatch('removeFromCart', this.bookable.id);
         }
     },
 
