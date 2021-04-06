@@ -2,7 +2,7 @@
     <div>
         <nav class="navbar bg-white border-bottom navbar-light">
             <router-link class="navbar-brand mr-auto" :to="{ name: 'home' }">LaravelBnb</router-link>
-            <router-link class="btn nav-button" :to="{ name: 'home' }">
+            <router-link class="btn nav-button" :to="{ name: 'cart' }">
                 Cart
                 <span v-if="itemsInCart" class="badge badge-secondary">{{ itemsInCart }}</span>
             </router-link>

@@ -88,8 +88,8 @@ export default {
             }
         },
 
-        addToCart() {
-            this.$store.dispatch(
+        async addToCart() {
+            await this.$store.dispatch(
                 'addToCart',
                 {
                     bookable: this.bookable,
@@ -99,8 +99,8 @@ export default {
             );
         },
 
-        removeFromCart() {
-            this.$store.dispatch('removeFromCart', this.bookable.id);
+        async removeFromCart() {
+            await this.$store.dispatch('removeFromCart', this.bookable.id);
         }
     },
 
