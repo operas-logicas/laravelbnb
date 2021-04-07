@@ -48,6 +48,11 @@ Route::get(
     'Api\BookingByReviewController'
 )->name('booking.booking-by-review.show');
 
+Route::post(
+    'checkout',
+    'Api\CheckoutController'
+)->name('checkout');
+
 Route::apiResource(
     'reviews',
     'Api\ReviewController'
