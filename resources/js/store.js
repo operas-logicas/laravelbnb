@@ -49,8 +49,13 @@ export default {
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
 
-        removeFromCart({ commit, state}, payload) {
+        removeFromCart({ commit, state }, payload) {
             commit('removeFromCart', payload);
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+        },
+
+        clearCart({ commit, state }) {
+            commit('setCart', { items: [] });
             localStorage.setItem('cart', JSON.stringify(state.cart));
         }
     },
