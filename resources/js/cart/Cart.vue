@@ -4,44 +4,44 @@
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="first_name">First Name</label>
-                    <input type="text" name="first_name" class="form-control">
+                    <input type="text" name="first_name" v-model="customer.first_name" class="form-control">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="last_name">Last Name</label>
-                    <input type="text" name="last_name" class="form-control">
+                    <input type="text" name="last_name" v-model="customer.last_name" class="form-control">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12 form-group">
                     <label for="email">Email</label>
-                    <input type="text" name="email" class="form-control">
+                    <input type="text" name="email" v-model="customer.email" class="form-control">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="street">Street</label>
-                    <input type="text" name="street" class="form-control">
+                    <input type="text" name="street" v-model="customer.street" class="form-control">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="city">City</label>
-                    <input type="text" name="city" class="form-control">
+                    <input type="text" name="city" v-model="customer.city" class="form-control">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="country">Country</label>
-                    <input type="text" name="country" class="form-control">
+                    <input type="text" name="country" v-model="customer.country" class="form-control">
                 </div>
                 <div class="col-md-4 form-group">
                     <label for="state">State</label>
-                    <input type="text" name="state" class="form-control">
+                    <input type="text" name="state" v-model="customer.state" class="form-control">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="zip">Zip</label>
-                    <input type="text" name="zip" class="form-control">
+                    <input type="text" name="zip" v-model="customer.zip" class="form-control">
                 </div>
             </div>
 
@@ -101,6 +101,21 @@
 import { mapGetters, mapState } from 'vuex';
 
 export default {
+    data() {
+        return {
+            customer: {
+                first_name: null,
+                last_name: null,
+                email: null,
+                street: null,
+                city: null,
+                country: null,
+                state: null,
+                zip: null
+            }
+        }
+    },
+
     computed: {
         ...mapGetters([ 'itemsInCart' ]),
         ...mapState({ cart: state => state.cart.items })
