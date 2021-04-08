@@ -15,7 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+//Auth::routes();
+
+Route::post(
+    '/login',
+    'Auth\LoginController@login'
+)->name('login');
+
+Route::post(
+    '/logout',
+    'Auth\LoginController@logout'
+)->name('logout');
+
+Route::post(
+    '/register',
+    'Auth\RegisterController@register'
+)->name('register');
 
 Route::middleware('auth')
     ->get('/user', function (Request $request) {
