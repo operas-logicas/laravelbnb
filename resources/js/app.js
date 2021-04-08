@@ -12,6 +12,7 @@ import Success from './shared/components/Success';
 import StarRating from './shared/components/StarRating';
 import ValidationErrors from './shared/components/ValidationErrors';
 import StoreDefinition from './store.js';
+import { is401 } from './shared/utils/response';
 
 window.Vue = Vue;
 
@@ -31,6 +32,15 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store(StoreDefinition);
 
+window.axios.interceptors.response.use(
+    response => response,
+    async error => {
+        if (is401(error)) await store.dispatch('logout');
+
+        return Promise.reject(error);
+    }
+);
+
 const app = new Vue({
     el: '#app',
     router,
@@ -42,5 +52,6 @@ const app = new Vue({
 
     async beforeCreate() {
         await this.$store.dispatch('loadStoredState');
+        await this.$store.dispatch('loadUser');
     }
 });

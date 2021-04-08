@@ -1,3 +1,5 @@
+import * as Auth from './shared/utils/auth';
+
 export default {
     state: {
         lastSearch: {
@@ -6,7 +8,9 @@ export default {
         },
         cart: {
             items: []
-        }
+        },
+        isLoggedIn: false,
+        user: {}
     },
 
     mutations: {
@@ -26,6 +30,14 @@ export default {
             state.cart.items = state.cart.items.filter(
                 item => item.bookable.id !== payload
             );
+        },
+
+        setUser(state, payload) {
+            state.user = payload;
+        },
+
+        setLoggedIn(state, payload) {
+            state.isLoggedIn = payload;
         }
     },
 
@@ -36,6 +48,8 @@ export default {
         },
 
         loadStoredState(context) {
+            context.commit('setLoggedIn', Auth.isLoggedIn());
+
             const lastSearch = localStorage.getItem('lastSearch');
             if (lastSearch)
                 context.commit('setLastSearch', JSON.parse(lastSearch));
@@ -57,6 +71,24 @@ export default {
         clearCart({ commit, state }) {
             commit('setCart', { items: [] });
             localStorage.setItem('cart', JSON.stringify(state.cart));
+        },
+
+        async loadUser({ commit, dispatch }) {
+            if (Auth.isLoggedIn()) {
+                try {
+                    const user = (await axios.get(`/user`)).data;
+                    commit('setUser', user);
+                    commit('setLoggedIn', true);
+                } catch (error) {
+                    await dispatch('logout');
+                }
+            }
+        },
+
+        logout({ commit }) {
+            commit('setUser', {});
+            commit('setLoggedIn', false);
+            Auth.logOut();
         }
     },
 

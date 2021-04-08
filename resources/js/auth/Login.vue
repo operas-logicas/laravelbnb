@@ -40,7 +40,7 @@
 
             <div>
                 No account yet?
-                <router-link :to="{ name: 'home' }"
+                <router-link :to="{ name: 'register' }"
                              class="font-weight-bold"
                 >Register</router-link>
             </div>
@@ -57,6 +57,7 @@
 
 <script>
 import validationErrors from '../shared/mixins/validationErrors';
+import * as Auth from '../shared/utils/auth';
 import { is422 } from '../shared/utils/response';
 
 export default {
@@ -68,7 +69,7 @@ export default {
             password: null,
             loading: false,
             error: false
-        }
+        };
     },
 
     methods: {
@@ -83,7 +84,9 @@ export default {
                     password: this.password
                 });
 
-                await axios.get(`/user`);
+                Auth.logIn();
+                await this.$store.dispatch('loadUser');
+                await this.$router.push({ name: 'home' });
 
             } catch (error) {
                 if (is422(error)) this.errors = error.response.data.errors;

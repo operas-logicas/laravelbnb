@@ -3,6 +3,7 @@ import Bookables from './bookables/Bookables';
 import Bookable from './bookable/Bookable';
 import Cart from './cart/Cart';
 import Login from './auth/Login';
+import Register from './auth/Register';
 import Review from './review/Review';
 
 const routes = [
@@ -10,11 +11,6 @@ const routes = [
         path: '/',
         component: Bookables,
         name: 'home'
-    },
-    {
-        path: '/auth/login',
-        component: Login,
-        name: 'login'
     },
     {
         path: '/bookable/:id',
@@ -25,6 +21,16 @@ const routes = [
         path: '/cart',
         component: Cart,
         name: 'cart'
+    },
+    {
+        path: '/login',
+        component: Login,
+        name: 'login'
+    },
+    {
+        path: '/register',
+        component: Register,
+        name: 'register'
     },
     {
         path: '/review/:id',
