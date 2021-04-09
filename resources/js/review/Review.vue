@@ -7,7 +7,7 @@
                 { 'col-md-4': twoColumns },
                 { 'd-none': oneColumn }
             ]">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-body">
                         <div v-if="loading">Loading...</div>
                         <div v-else-if="hasBooking">

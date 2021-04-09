@@ -900,6 +900,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import moment from 'moment';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -908,8 +917,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: false,
-      reviews: null
+      reviews: null,
+      showReviews: true
     };
+  },
+  methods: {
+    toggleReviews: function toggleReviews() {
+      this.showReviews = !this.showReviews;
+    }
   },
   created: function created() {
     var _this = this;
@@ -4741,11 +4756,24 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { padding: "1.25rem" } }, [
-    _c(
-      "h6",
-      { staticClass: "text-uppercase text-secondary font-weight-bolder pt-4" },
-      [_vm._v("Review List")]
-    ),
+    _c("h6", { staticClass: "pt-4" }, [
+      _c(
+        "a",
+        {
+          staticClass: "text-uppercase font-weight-bolder",
+          attrs: { href: "#" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.toggleReviews($event)
+            }
+          }
+        },
+        [_vm._v("Review List")]
+      ),
+      _vm._v(" "),
+      _c("small", { staticClass: "text-muted" }, [_vm._v("( hide / view )")])
+    ]),
     _vm._v(" "),
     _vm.loading
       ? _c("div", [_vm._v("Loading...")])
@@ -4756,7 +4784,8 @@ var render = function() {
               "div",
               {
                 key: "review-" + index,
-                staticClass: "border-bottom d-none d-md-block pt-4"
+                staticClass: "border-bottom pt-4",
+                class: [{ "d-none": !_vm.showReviews }]
               },
               [
                 _c("div", { staticClass: "row" }, [
@@ -4876,14 +4905,15 @@ var render = function() {
           _vm._l(_vm.rows, function(row) {
             return _c(
               "div",
-              { key: "row-" + row, staticClass: "row mb-4" },
+              { key: "row-" + row, staticClass: "row mb-0 mb-md-4" },
               [
                 _vm._l(_vm.bookablesInRow(row), function(bookable, col) {
                   return _c(
                     "div",
                     {
                       key: "row-" + (row + col),
-                      staticClass: "col d-flex align-items-stretch"
+                      staticClass:
+                        "col-12 col-md-4 mb-4 mb-md-0 d-flex align-items-stretch"
                     },
                     [
                       _c("bookable-list-item", {
@@ -4940,7 +4970,7 @@ var render = function() {
         ? _c("fatal-error")
         : _c("div", { staticClass: "row" }, [
             _vm.itemsInCart
-              ? _c("div", { staticClass: "col-md-8" }, [
+              ? _c("div", { staticClass: "col-md-8 pb-4" }, [
                   _c("div", { staticClass: "row" }, [
                     _c(
                       "div",
@@ -5318,7 +5348,7 @@ var render = function() {
                     ])
                   ])
                 ])
-              : _c("div", { staticClass: "col-md-8" }, [
+              : _c("div", { staticClass: "col-md-8 pb-2" }, [
                   _c(
                     "div",
                     { staticClass: "jumbotron jumbotron-fluid text-center" },
@@ -5476,7 +5506,7 @@ var render = function() {
                 ]
               },
               [
-                _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card mb-4" }, [
                   _c("div", { staticClass: "card-body" }, [
                     _vm.loading
                       ? _c("div", [_vm._v("Loading...")])

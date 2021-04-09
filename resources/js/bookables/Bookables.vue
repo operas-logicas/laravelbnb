@@ -2,8 +2,8 @@
     <div>
         <div v-if="loading">Data is loading...</div>
         <div v-else>
-            <div class="row mb-4" v-for="row in rows" :key="`row-${row}`">
-                <div class="col d-flex align-items-stretch"
+            <div class="row mb-0 mb-md-4" v-for="row in rows" :key="`row-${row}`">
+                <div class="col-12 col-md-4 mb-4 mb-md-0 d-flex align-items-stretch"
                      v-for="(bookable, col) in bookablesInRow(row)"
                      :key="`row-${row + col}`"
                 >

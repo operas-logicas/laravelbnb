@@ -3,7 +3,7 @@
         <success v-if="isSuccess">Your booking is complete, thank you!</success>
         <fatal-error v-else-if="error"></fatal-error>
         <div class="row" v-else>
-            <div class="col-md-8" v-if="itemsInCart">
+            <div class="col-md-8 pb-4" v-if="itemsInCart">
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="first_name">First Name</label>
@@ -125,7 +125,7 @@
                 </div>
             </div><!-- End v-if itemsInCart -->
 
-            <div class="col-md-8" v-else>
+            <div class="col-md-8 pb-2" v-else>
                 <div class="jumbotron jumbotron-fluid text-center">
                     <h1>Empty</h1>
                 </div>
@@ -143,16 +143,16 @@
                 <transition-group name="fade" tag="div">
                     <div v-for="item in cart" :key="item.bookable.id">
                         <div class="pt-2 pb-2 border-top d-flex justify-content-between">
-                    <span>
-                        <router-link
-                            :to="{
-                                name: 'bookable',
-                                params: {
-                                    id: String(item.bookable.id)
-                                }
-                            }"
-                        >{{ item.bookable.title }}</router-link>
-                    </span>
+                            <span>
+                                <router-link
+                                    :to="{
+                                        name: 'bookable',
+                                        params: {
+                                            id: String(item.bookable.id)
+                                        }
+                                    }"
+                                >{{ item.bookable.title }}</router-link>
+                            </span>
 
                             <span class="font-weight-bolder">${{ item.price.total }}</span>
                         </div>

@@ -1,11 +1,20 @@
 <template>
     <div style="padding: 1.25rem">
-        <h6 class="text-uppercase text-secondary font-weight-bolder pt-4">Review List</h6>
+        <h6 class="pt-4">
+            <a href="#"
+               @click.prevent="toggleReviews"
+               class="text-uppercase font-weight-bolder"
+            >Review List</a>
+            <small class="text-muted">( hide / view )</small>
+        </h6>
 
         <div v-if="loading">Loading...</div>
         <div v-else>
             <div
-                class="border-bottom d-none d-md-block pt-4"
+                class="border-bottom pt-4"
+                :class="[
+                    { 'd-none': !showReviews }
+                ]"
                 v-for="(review, index) in reviews" :key="`review-${index}`"
             >
                 <div class="row">
@@ -38,7 +47,14 @@ export default {
     data() {
         return {
             loading: false,
-            reviews: null
+            reviews: null,
+            showReviews: true
+        }
+    },
+
+    methods: {
+        toggleReviews() {
+            this.showReviews = !this.showReviews;
         }
     },
 
